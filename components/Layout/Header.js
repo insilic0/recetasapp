@@ -1,10 +1,107 @@
 import React from 'react';
+import styled from '@emotion/styled';
+import {css} from '@emotion/react';
+import Link from 'next/link';
+
+import Navigation from '../Layout/Navigation';
+
+import Buscar from '../UI/Buscar';
+import Boton from '../UI/Boton';
+
+const ContenedorHeader = styled.div`
+    margin: 0 auto;
+    padding: 0 .5rem;
+
+    @media (min-width: 768px){
+        display: flex;
+        justify-content: space-between;
+    }
+`;
+
+const Logo = styled.img`
+    width: 5rem;
+    height: 5rem;
+
+    &:hover{
+        cursor: pointer;
+    }
+`;
 
 const Header = () => {
+
+    const usuario = false;
+
     return (
-        <div>
-            
-        </div>
+        <header>
+            <ContenedorHeader>
+                <div
+                    css={css`
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    
+                    @media(max-width: 768px){
+                        display: flex;
+                        flex-direction: column;
+                      
+                    }
+                `}
+                >
+                    <Link href="/"><Logo src="favicon.ico"></Logo></Link>
+
+                    <Buscar />
+                    
+                    <Navigation />
+                </div>
+
+                <div
+                     css={css`
+                     display: flex;
+                     align-items: center;
+                     justify-content: space-evenly;
+                     min-height: 1rem;
+                   
+
+                 `}
+                >
+                    { usuario ? (
+                        <>
+                         
+                                <p
+                                css={css`
+                                    margin-right: 2rem;
+                                    margin-left: 2rem;
+                                    display: flex;
+                                    
+                                    
+                                    
+                                `}
+                            >Hola: Naxito</p>
+                           
+
+                            <Boton
+                                bgColor="true"
+                                // onClick={()=> firebase.cerrarSesion()}
+                            >Cerrar Sesión</Boton>
+                        </>
+                    ) : (
+                        <>
+                        <Link href="/login">
+                            <Boton
+                                
+                        >   Login</Boton>
+                         </Link>
+
+                    <Link href="/register">
+                        <Boton
+                            bgColor="false"
+                        >Crear Cuenta</Boton>
+                    </Link>
+                        </>
+                    ) }
+                </div>
+            </ContenedorHeader>
+        </header>
     )
 }
 
