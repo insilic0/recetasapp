@@ -13,7 +13,6 @@ export const StyledIcon = styled.div`
     text-align: center;
     img{
         width: 100px;
-        height:
     }
 `;
 
@@ -30,9 +29,10 @@ export const StyledField = styled.div`
     input{
         flex: 1;
         padding: 1rem;
-        border: 1px solid #e1e1e1;
+        border: 1px solid ${props => props.error ? 'red' : '#e1e1e1'};
         border-radius: 20px;
     }
+
 `;
 
 export const StyledSubmit = styled.input`
@@ -51,4 +51,27 @@ export const StyledSubmit = styled.input`
         background-color: #6a26cd;
         color: white;
     }
+`;
+
+export const Error = styled.p`  
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1rem 3rem;
+  border-radius: 1rem;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  text-align: center;
+  width: 100%;
+  color: #FFF;
+  background-color: red;
+  
+  @media (min-width:768px) {
+      width: auto;
+      top: 30px;
+      right: 10px;
+      left: auto;
+}
 `;

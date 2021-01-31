@@ -3,7 +3,7 @@ import Router from 'next/router';
 import Layout from '../components/Layout/Layout';
 import {css} from '@emotion/react';
 
-import { Formulario, StyledField, StyledIcon, StyledSubmit } from '../components/UI/Formulario';
+import { Formulario, StyledField, StyledIcon, StyledSubmit, Error } from '../components/UI/Formulario';
 
 //Validations
 import useValidacion from '../hooks/useValidacion';
@@ -29,7 +29,7 @@ const Login = () => {
                 <h1
                     css={css`
                         text-align: center;
-                        margin-top: 5rem;
+                        margin-top: 2rem;
                     `}
                 >
                     Iniciar Sesión
@@ -42,7 +42,9 @@ const Login = () => {
                 <Formulario
                     onSubmit={handleSubmit}
                 >
-                    <StyledField>
+                    <StyledField
+                        error={errors.email ? true : false}
+                    >
                         <label htmlFor="email">Correo Electrónico</label>
                         <input
                             type="email"
@@ -56,10 +58,14 @@ const Login = () => {
 
                         />
                     </StyledField>
+
+                    {errors.email && (<Error>{errors.email}</Error>)}
                     
-                    <StyledField>
+                    <StyledField
+                         error={errors.password ? true : false}
+                    >
                         <label htmlFor="password">Contraseña</label>
-                        <input
+                        <input                
                             type="password"
                             id="password"
                             placeholder="Tu contraseña"
@@ -69,6 +75,8 @@ const Login = () => {
                             onBlur={handleBlur}
                         />
                     </StyledField>
+
+                    {errors.password && (<Error>{errors.password}</Error>)}
 
                     <StyledSubmit
                         type="submit"

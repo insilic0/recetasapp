@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import {css} from '@emotion/react';
 import Link from 'next/link';
@@ -27,9 +27,31 @@ const Logo = styled.img`
     }
 `;
 
+const StyledBurgerButton = styled.div`
+    width: 40px;
+    display: block;
+    text-align: right;
+    margin: 1rem 0 2rem 0;
+    background-color: black;
+
+    span{
+        height: 8px;
+        margin-bottom: 6px;
+        background-color: white;
+        display: block;
+    }
+    &:hover{
+        cursor: pointer;
+    }
+    @media(min-width:768px){
+        display: none;
+    }
+`;
+
 const Header = () => {
 
     const usuario = false;
+    const [selected, setSelected] = useState(false);
 
     return (
         <header>
@@ -49,9 +71,20 @@ const Header = () => {
                 >
                     <Link href="/"><Logo src="favicon.ico"></Logo></Link>
 
-                    <Buscar />
-                    
-                    <Navigation />
+                    <StyledBurgerButton onClick={()=>setSelected(!selected)}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </StyledBurgerButton>
+     
+                    {selected ? (null) :                   
+                        <>
+                        <Buscar />
+                        
+                        <Navigation />
+                        </>
+                   }
+                
                 </div>
 
                 <div
@@ -59,26 +92,24 @@ const Header = () => {
                      display: flex;
                      align-items: center;
                      justify-content: space-evenly;
-                     min-height: 1rem;
-                   
-
+                     min-height: 1rem;            
                  `}
                 >
-                    { usuario ? (
+                    {selected ? (null) : 
+                    
+                        <>
+    
+                        { usuario ? (
                         <>
                          
                                 <p
                                 css={css`
                                     margin-right: 2rem;
                                     margin-left: 2rem;
-                                    display: flex;
-                                    
-                                    
-                                    
+                                    display: flex;                                                  
                                 `}
                             >Hola: Naxito</p>
                            
-
                             <Boton
                                 bgColor="true"
                                 // onClick={()=> firebase.cerrarSesion()}
@@ -99,6 +130,8 @@ const Header = () => {
                     </Link>
                         </>
                     ) }
+                    </>   
+                     }
                 </div>
             </ContenedorHeader>
         </header>

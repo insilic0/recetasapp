@@ -46,4 +46,4 @@ const useValidacion = (initialState, toValidate, toExecuteFunction) => {
     }
 }
 
-export default useValidacion
+export default useValidacion;
