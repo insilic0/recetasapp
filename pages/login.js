@@ -9,6 +9,8 @@ import { Formulario, StyledField, StyledIcon, StyledSubmit, Error } from '../com
 import useValidacion from '../hooks/useValidacion';
 import validateLogin from '../validation/validateLogin';
 
+import firebase from '../firebase';
+
 const INITIAL_STATE = {
     email:'',
     password: ''
@@ -19,8 +21,24 @@ const Login = () => {
     const {values, errors, handleSubmit, handleChange, handleBlur} = useValidacion(INITIAL_STATE, validateLogin, login);
     const {email, password} = values;
 
-    function login(){
-        console.log("Logging in");
+    const [error, setError] = useState(false);
+
+
+    async function login(){
+        try {
+            await firebase.userLogin(email, password);
+            Router.push('/');
+        } catch (error) {
+
+            if(error.code === "auth/user-not-found"){
+                setError('El usuario no existe');
+            }
+            else{
+                console.log('Error al iniciar sesión', error.message);
+            }
+            
+            
+        }
     }
 
     return (
@@ -58,9 +76,7 @@ const Login = () => {
 
                         />
                     </StyledField>
-
-                    {errors.email && (<Error>{errors.email}</Error>)}
-                    
+                                        
                     <StyledField
                          error={errors.password ? true : false}
                     >
@@ -75,8 +91,9 @@ const Login = () => {
                             onBlur={handleBlur}
                         />
                     </StyledField>
+                 
+                    {error && (<Error>{error}</Error>)}
 
-                    {errors.password && (<Error>{errors.password}</Error>)}
 
                     <StyledSubmit
                         type="submit"

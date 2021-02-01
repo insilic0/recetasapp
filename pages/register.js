@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import {css} from '@emotion/react';
+import firebase from '../firebase';
 
 import {StyledField, StyledSubmit, Formulario, Error} from '../components/UI/Formulario';
 
 import useValidacion from '../hooks/useValidacion';
 import validateRegister from '../validation/validateRegister';
+import Router from 'next/router';
 
 const INITIAL_STATE = {
     username:'',
@@ -20,8 +22,16 @@ const Register = () => {
     
     const {username, email, password, repeatPass}= values;
 
-    function register(){
-        console.log('Registrando owo');
+    const [error, setError] = useState(false);
+
+    async function register(){
+        try {
+            await firebase.userRegister(username, email, password);
+            Router.push('/');
+        } catch (error) {
+            console.error('Hubo un error al crear el usuario', error.message);
+            setError(error.message);
+        }
     }
 
     return (
@@ -60,6 +70,7 @@ const Register = () => {
                 </StyledField>
 
                 {errors.username && (<Error>{errors.username}</Error>)}
+                {error && (<Error>{error}</Error>)}
 
                 <StyledField
                     error={errors.email ? true : false}
@@ -95,7 +106,7 @@ const Register = () => {
                 {errors.password && (<Error>{errors.password}</Error>)}
 
                 <StyledField
-                    error={errors.password ? true : false}
+                    error={errors.repeatPass ? true : false}
                 >
                     <label htmlFor="repeatPass">Repite tu contraseña</label>
                         <input

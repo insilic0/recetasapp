@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import {css} from '@emotion/react';
 import Link from 'next/link';
@@ -7,6 +7,8 @@ import Navigation from '../Layout/Navigation';
 
 import Buscar from '../UI/Buscar';
 import Boton from '../UI/Boton';
+
+import {FirebaseContext} from '../../firebase';
 
 const ContenedorHeader = styled.div`
     margin: 0 auto;
@@ -50,8 +52,11 @@ const StyledBurgerButton = styled.div`
 
 const Header = () => {
 
-    const usuario = false;
+    const {usuario, firebase} = useContext(FirebaseContext);
+
     const [selected, setSelected] = useState(false);
+
+
 
     return (
         <header>
@@ -108,11 +113,11 @@ const Header = () => {
                                     margin-left: 2rem;
                                     display: flex;                                                  
                                 `}
-                            >Hola: Naxito</p>
+                            >Hola: {usuario.displayName}</p>
                            
                             <Boton
                                 bgColor="true"
-                                // onClick={()=> firebase.cerrarSesion()}
+                                 onClick={()=> firebase.logOut()}
                             >Cerrar Sesión</Boton>
                         </>
                     ) : (
